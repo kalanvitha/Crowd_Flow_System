@@ -1,0 +1,21 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Environment
+.env
+
+# Uploads & results (user data)
+uploads/
+results/
+logs/
+
+# Media files
+*.mp4
+*.avi
+*.mov
+*.pdf
+
+# OS files
+.DS_Store
+Thumbs.db
