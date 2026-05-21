@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crowd Detection System</title>
+    <style>
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh; 
+            padding: 20px;
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .user-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .logout-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #c0392b;
+        }
+
+        .auth-message {
+            background: rgba(255, 193, 7, 0.2);
+            border: 1px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .features-section {
+            display: none;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+        }
+
+        .features-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .features-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .feature-desc {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .analysis-btn {
+            width: 100%;
+            padding: 15px;
+            background: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .analysis-btn:hover {
+            background: #27ae60;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+        }
+
+        .card h2 {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .upload-area {
+            border: 2px dashed rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .upload-area:hover {
+            border-color: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .selected-file {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 5px;
+            display: none;
+        }
+
+        .analyze-btn {
+            width: 100%;
+            padding: 15px;
+            background: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .analyze-btn:hover {
+            background: #27ae60;
+        }
+
+        .analyze-btn:disabled {
+            background: #7f8c8d;
+            cursor: not-allowed;
+        }
+
+        .progress-container {
+            margin: 20px 0;
+            display: none;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: #2ecc71;
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+
+        .results-section {
+            display: none;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .result-card {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .result-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .result-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .video-preview {
+            width: 100%;
+            height: 250px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .export-options {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .export-btn {
+            padding: 12px 20px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .export-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .export-btn.json { background: #f39c12; }
+        .export-btn.json:hover { background: #e67e22; }
+        
+        .export-btn.csv { background: #27ae60; }
+        .export-btn.csv:hover { background: #219a52; }
+        
+        .export-btn.excel { background: #2ecc71; }
+        .export-btn.excel:hover { background: #27ae60; }
+        
+        .export-btn.pdf { background: #e74c3c; }
+        .export-btn.pdf:hover { background: #c0392b; }
+
+        .new-analysis-btn {
+            width: 100%;
+            padding: 15px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .new-analysis-btn:hover {
+            background: #2980b9;
+        }
+
+        .video-history {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .video-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            transition: all 0.3s;
+        }
+
+        .video-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(5px);
+        }
+
+        .status-message {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: center;
+            font-weight: 600;
+            display: none;
+        }
+
+        .status-processing {
+            background: rgba(255, 193, 7, 0.2);
+            border: 1px solid #ffc107;
+        }
+
+        .status-success {
+            background: rgba(40, 167, 69, 0.2);
+            border: 1px solid #28a745;
+        }
+
+        .status-error {
+            background: rgba(220, 53, 69, 0.2);
+            border: 1px solid #dc3545;
+        }
+
+        .analysis-section {
+            display: none;
+        }
+
+        .analysis-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .frame-data-section {
+            margin-top: 30px;
+            display: none;
+        }
+
+        .frame-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .frame-table th,
+        .frame-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .frame-table th {
+            background: rgba(255, 255, 255, 0.2);
+            font-weight: 600;
+        }
+
+        .frame-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .toggle-frame-data {
+            background: #9b59b6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s;
+        }
+
+        .toggle-frame-data:hover {
+            background: #8e44ad;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Enhanced Recommendations Section */
+        .recommendations-section {
+            margin-top: 30px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+            border-radius: 15px;
+            padding: 25px;
+            border-left: 5px solid #667eea;
+        }
+
+        .recommendations-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .recommendations-header h3 {
+            font-size: 1.4rem;
+            margin-left: 10px;
+        }
+
+        .recommendation-item {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 10px;
+            display: flex;
+            align-items: flex-start;
+            transition: all 0.3s;
+            border-left: 4px solid;
+        }
+
+        .recommendation-item:hover {
+            transform: translateX(5px);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .recommendation-item.critical {
+            border-left-color: #e74c3c;
+            background: rgba(231, 76, 60, 0.15);
+        }
+
+        .recommendation-item.high {
+            border-left-color: #e67e22;
+            background: rgba(230, 126, 34, 0.15);
+        }
+
+        .recommendation-item.medium {
+            border-left-color: #f39c12;
+            background: rgba(243, 156, 18, 0.15);
+        }
+
+        .recommendation-item.low {
+            border-left-color: #3498db;
+            background: rgba(52, 152, 219, 0.15);
+        }
+
+        .recomm-icon {
+            font-size: 1.2rem;
+            margin-right: 12px;
+            margin-top: 2px;
+        }
+
+        .recomm-content {
+            flex: 1;
+        }
+
+        .recomm-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+
+        .recomm-description {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        .recomm-priority {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-left: 10px;
+            text-transform: uppercase;
+        }
+
+        .priority-critical { background: #e74c3c; }
+        .priority-high { background: #e67e22; }
+        .priority-medium { background: #f39c12; }
+        .priority-low { background: #3498db; }
+
+        @media (max-width: 768px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .export-options {
+                flex-direction: column;
+            }
+            
+            .export-btn {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Authentication Message -->
+        <div id="authMessage" class="auth-message">
+            🔒 Checking authentication...
+        </div>
+
+        <div class="header">
+            <h1>Crowd Detection</h1>
+            <p class="subtitle">Advanced Video Analysis System</p>
+        </div>
+
+        <div class="user-bar">
+            <div class="user-info">Welcome, <span id="currentUsername">User</span>!</div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+
+        <!-- Features Section -->
+        <div class="features-section active" id="featuresSection">
+            <div class="features-header">
+                <h2>System Capabilities</h2>
+                <p>What our system can do for you</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📹</div>
+                    <h3 class="feature-title">Video Upload</h3>
+                    <p class="feature-desc">Upload surveillance footage or any video for analysis. Supports all major formats.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3 class="feature-title">Crowd Analysis</h3>
+                    <p class="feature-desc">Advanced AI algorithms detect and count individuals in crowded scenes.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">Detailed Reports</h3>
+                    <p class="feature-desc">Comprehensive analytics including density maps and movement patterns.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📥</div>
+                    <h3 class="feature-title">Multiple Export Formats</h3>
+                    <p class="feature-desc">Download results in JSON, CSV, Excel, and PDF formats.</p>
+                </div>
+            </div>
+            
+            <button class="analysis-btn" id="startAnalysisBtn">Start New Analysis</button>
+        </div>
+
+        <!-- Analysis Section -->
+        <div class="card analysis-section" id="analysisSection">
+            <h2>Video Analysis</h2>
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-icon">📁</div>
+                <h3>Click to upload video</h3>
+                <p>Supported formats: MP4, AVI, MOV, WMV</p>
+                <p>Max file size: 500MB</p>
+                <input type="file" id="fileInput" class="file-input" accept="video/*">
+            </div>
+            
+            <div class="selected-file" id="selectedFile">
+                Selected file: <span id="fileName"></span>
+            </div>
+            
+            <div class="progress-container" id="progressContainer">
+                <div class="progress-bar">
+                    <div class="progress" id="progressBar"></div>
+                </div>
+                <div class="progress-text" id="progressText">Processing: 0%</div>
+            </div>
+            
+            <button class="analyze-btn" id="analyzeBtn">Analyze Video</button>
+            
+            <div id="statusMessage" class="status-message"></div>
+            
+            <div class="results-section" id="resultsSection">
+                <h3>Analysis Results</h3>
+                
+                <div class="video-preview">
+                    <div id="videoPreviewContent">
+                        <div style="font-size: 3rem; margin-bottom: 10px;">📊</div>
+                        <div>Analysis Complete</div>
+                        <div style="font-size: 0.9rem; opacity: 0.8; margin-top: 10px;">
+                            Video processed successfully
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Summary Statistics -->
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value" id="totalFrames">0</div>
+                        <div class="stat-label">Total Frames</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="processedFrames">0</div>
+                        <div class="stat-label">Processed Frames</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="crowdEvents">0</div>
+                        <div class="stat-label">Crowd Events</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="maxCrowdSize">0</div>
+                        <div class="stat-label">Max Crowd Size</div>
+                    </div>
+                </div>
+
+                <div class="results-grid">
+                    <div class="result-card">
+                        <div class="result-value" id="averageCrowdSize">0</div>
+                        <div class="result-label">Average Crowd Size</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-value" id="highAlerts">0</div>
+                        <div class="result-label">High Density Alerts</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-value" id="videoDuration">0</div>
+                        <div class="result-label">Duration (seconds)</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-value" id="processingTime">0</div>
+                        <div class="result-label">Processing Time (s)</div>
+                    </div>
+                </div>
+
+                <!-- Enhanced Recommendations Section -->
+                <div class="recommendations-section" id="recommendationsSection">
+                    <div class="recommendations-header">
+                        <div style="font-size: 2rem;">💡</div>
+                        <h3>Smart Recommendations</h3>
+                    </div>
+                    <div id="recommendationsList">
+                        <!-- Recommendations will be populated here -->
+                        <div class="recommendation-item">
+                            <div class="recomm-icon">📋</div>
+                            <div class="recomm-content">
+                                <div class="recomm-title">Analyzing your video data...</div>
+                                <div class="recomm-description">Generating personalized recommendations based on crowd patterns</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Frame Data Section -->
+                <div class="frame-data-section" id="frameDataSection">
+                    <h4>Frame-by-Frame Analysis</h4>
+                    <div class="frame-table-container" style="max-height: 400px; overflow-y: auto;">
+                        <table class="frame-table" id="frameTable">
+                            <thead>
+                                <tr>
+                                    <th>Frame</th>
+                                    <th>Timestamp (s)</th>
+                                    <th>People Count</th>
+                                    <th>Density Level</th>
+                                    <th>Movement</th>
+                                    <th>Zone A</th>
+                                    <th>Zone B</th>
+                                    <th>Zone C</th>
+                                </tr>
+                            </thead>
+                            <tbody id="frameTableBody">
+                                <!-- Frame data will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <button class="toggle-frame-data" onclick="toggleFrameData()">Show Detailed Frame Data</button>
+                </div>
+
+                <!-- Export Options -->
+                <div class="export-options">
+                    <button class="export-btn json" onclick="downloadResults('json')">
+                        📥 JSON Export
+                    </button>
+                    <button class="export-btn csv" onclick="downloadResults('csv')">
+                        📊 CSV Export
+                    </button>
+                    <button class="export-btn excel" onclick="downloadResults('excel')">
+                        📈 Excel Export
+                    </button>
+                    <button class="export-btn pdf" onclick="downloadResults('pdf')">
+                        📄 PDF Report
+                    </button>
+                </div>
+                
+                <button class="new-analysis-btn" id="newAnalysisBtn">Start New Analysis</button>
+            </div>
+        </div>
+
+        <!-- Video History -->
+        <div class="card">
+            <h2>Video History</h2>
+            <button class="analyze-btn" onclick="loadVideoHistory()" style="margin-bottom: 20px; background: #9b59b6;">
+                🔄 Refresh History
+            </button>
+            <div id="videoHistory" class="video-history">
+                <p>Loading your video history...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentResults = null;
+        let currentResultId = null;
+        let frameDataVisible = false;
+
+        // Initialize page with PROPER authentication
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuthentication();
+        });
+
+        // Check authentication and redirect if not logged in
+        async function checkAuthentication() {
+            const authMessage = document.getElementById('authMessage');
+            authMessage.style.display = 'block';
+            authMessage.textContent = '🔒 Checking authentication...';
+
+            const token = localStorage.getItem('token');
+            const isLoggedIn = localStorage.getItem('crowd_detection_logged_in');
+            
+            // If no valid authentication, redirect to login
+            if (!token && !isLoggedIn) {
+                authMessage.textContent = '❌ Not authenticated. Redirecting to login...';
+                setTimeout(() => {
+                    window.location.href = '/?redirect=' + encodeURIComponent(window.location.pathname);
+                }, 2000);
+                return;
+            }
+            
+            // If using old demo login, migrate to proper token system
+            if (isLoggedIn && !token) {
+                localStorage.removeItem('crowd_detection_logged_in');
+                authMessage.textContent = '🔄 Migrating to new authentication system...';
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 2000);
+                return;
+            }
+
+            // Load user data and initialize app
+            try {
+                await loadUserData();
+                authMessage.style.display = 'none';
+                initializeApp();
+            } catch (error) {
+                authMessage.textContent = '❌ Authentication failed. Redirecting to login...';
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 2000);
+            }
+        }
+
+        // Load user data from token
+        async function loadUserData() {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    throw new Error('No authentication token');
+                }
+                
+                // Verify token with backend
+                const response = await fetch('/api/verify-token', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const userData = await response.json();
+                    document.getElementById('currentUsername').textContent = userData.user.username;
+                } else {
+                    // Token invalid, redirect to login
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
+                    throw new Error('Invalid token');
+                }
+            } catch (error) {
+                console.error('Error loading user data:', error);
+                // Fallback to stored username
+                const userData = localStorage.getItem('user');
+                if (userData) {
+                    const user = JSON.parse(userData);
+                    document.getElementById('currentUsername').textContent = user.username;
+                } else {
+                    throw new Error('No user data available');
+                }
+            }
+        }
+
+        // Initialize the application after authentication
+        function initializeApp() {
+            loadVideoHistory();
+            
+            // Event Listeners
+            document.getElementById('startAnalysisBtn').addEventListener('click', function() {
+                document.getElementById('featuresSection').classList.remove('active');
+                document.getElementById('analysisSection').classList.add('active');
+            });
+
+            document.getElementById('uploadArea').addEventListener('click', function() {
+                document.getElementById('fileInput').click();
+            });
+
+            document.getElementById('fileInput').addEventListener('change', function(e) {
+                if (e.target.files.length > 0) {
+                    const file = e.target.files[0];
+                    document.getElementById('fileName').textContent = file.name;
+                    document.getElementById('selectedFile').style.display = 'block';
+                    
+                    // Show video preview
+                    const videoPreview = document.getElementById('videoPreviewContent');
+                    videoPreview.innerHTML = `
+                        <div style="font-size: 2rem; margin-bottom: 10px;">🎬</div>
+                        <div>${file.name}</div>
+                        <div style="font-size: 0.8rem; opacity: 0.8; margin-top: 10px;">
+                            ${(file.size / (1024 * 1024)).toFixed(2)} MB
+                        </div>
+                    `;
+                }
+            });
+
+            document.getElementById('analyzeBtn').addEventListener('click', analyzeVideo);
+            document.getElementById('newAnalysisBtn').addEventListener('click', resetAnalysis);
+        }
+
+        // Main Functions
+        async function analyzeVideo() {
+            const videoFile = document.getElementById('fileInput').files[0];
+            const analyzeButton = document.getElementById('analyzeBtn');
+            const statusMessage = document.getElementById('statusMessage');
+            
+            if (!videoFile) { 
+                showStatus('Please select a video file first', 'error'); 
+                return; 
+            }
+            
+            analyzeButton.disabled = true; 
+            analyzeButton.textContent = 'Analyzing...';
+            showStatus('Processing video... This may take a few minutes', 'processing');
+            
+            // Show progress animation
+            document.getElementById('progressContainer').style.display = 'block';
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress > 90) progress = 90;
+                document.getElementById('progressBar').style.width = progress + '%';
+                document.getElementById('progressText').textContent = `Processing: ${Math.round(progress)}%`;
+            }, 500);
+            
+            try {
+                // Get authentication token
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    throw new Error('Not authenticated');
+                }
+
+                // Create form data for file upload
+                const formData = new FormData();
+                formData.append('video', videoFile);
+
+                // Send to backend API
+                const response = await fetch('/api/analyze-video', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Analysis failed');
+                }
+
+                const data = await response.json();
+                
+                clearInterval(progressInterval);
+                document.getElementById('progressBar').style.width = '100%';
+                document.getElementById('progressText').textContent = 'Processing: 100%';
+                
+                showStatus('Video analysis completed successfully!', 'success');
+                displayResults(data); 
+                loadVideoHistory();
+                
+            } catch (error) {
+                clearInterval(progressInterval);
+                showStatus(`Error: ${error.message}`, 'error');
+                if (error.message.includes('authenticated')) {
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 3000);
+                }
+            } finally {
+                analyzeButton.disabled = false; 
+                analyzeButton.textContent = 'Analyze Video';
+                setTimeout(() => {
+                    document.getElementById('progressContainer').style.display = 'none';
+                }, 2000);
+            }
+        }
+
+        // Function to generate smart recommendations based on analysis results
+        function generateSmartRecommendations(results) {
+            const recommendations = [];
+            const maxCrowd = results.max_crowd_size;
+            const avgCrowd = results.average_crowd_size;
+            const highAlerts = results.high_density_alerts;
+            
+            // Safety recommendations based on crowd density
+            if (maxCrowd > 80) {
+                recommendations.push({
+                    title: "Critical Crowd Density Detected",
+                    description: "Maximum crowd size exceeds safe limits. Immediate action required to prevent overcrowding and safety hazards.",
+                    priority: "critical",
+                    icon: "🚨"
+                });
+            } else if (maxCrowd > 50) {
+                recommendations.push({
+                    title: "High Crowd Density Warning",
+                    description: "Consider implementing crowd control measures and increasing staff presence in high-density areas.",
+                    priority: "high",
+                    icon: "⚠️"
+                });
+            }
+            
+            // Alert frequency recommendations
+            if (highAlerts > 5) {
+                recommendations.push({
+                    title: "Frequent High-Density Alerts",
+                    description: "Multiple high-density events detected. Review crowd management strategies and consider capacity limits.",
+                    priority: "high",
+                    icon: "📈"
+                });
+            }
+            
+            // Capacity planning recommendations
+            if (avgCrowd > 30) {
+                recommendations.push({
+                    title: "Optimize Space Utilization",
+                    description: "Average crowd density suggests efficient space usage. Consider expanding capacity during peak hours.",
+                    priority: "medium",
+                    icon: "📊"
+                });
+            } else {
+                recommendations.push({
+                    title: "Underutilized Space",
+                    description: "Low average density indicates potential for better space utilization or event scheduling optimization.",
+                    priority: "low",
+                    icon: "🏢"
+                });
+            }
+            
+            // General operational recommendations
+            recommendations.push({
+                title: "Regular Monitoring Recommended",
+                description: "Continue regular video analysis to track crowd patterns and optimize operations.",
+                priority: "medium",
+                icon: "👁️"
+            });
+            
+            // Security recommendations
+            if (maxCrowd > 40) {
+                recommendations.push({
+                    title: "Enhanced Security Monitoring",
+                    description: "Consider increasing security patrols and surveillance in high-traffic areas.",
+                    priority: "medium",
+                    icon: "🛡️"
+                });
+            }
+            
+            return recommendations;
+        }
+
+        // Function to display recommendations
+        function displayRecommendations(recommendations) {
+            const recommendationsList = document.getElementById('recommendationsList');
+            recommendationsList.innerHTML = '';
+            
+            if (recommendations.length === 0) {
+                recommendationsList.innerHTML = `
+                    <div class="recommendation-item">
+                        <div class="recomm-icon">✅</div>
+                        <div class="recomm-content">
+                            <div class="recomm-title">No Specific Recommendations</div>
+                            <div class="recomm-description">Crowd levels appear to be within normal operating parameters.</div>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            recommendations.forEach(rec => {
+                const recItem = document.createElement('div');
+                recItem.className = `recommendation-item ${rec.priority}`;
+                recItem.innerHTML = `
+                    <div class="recomm-icon">${rec.icon}</div>
+                    <div class="recomm-content">
+                        <div class="recomm-title">
+                            ${rec.title}
+                            <span class="recomm-priority priority-${rec.priority}">${rec.priority}</span>
+                        </div>
+                        <div class="recomm-description">${rec.description}</div>
+                    </div>
+                `;
+                recommendationsList.appendChild(recItem);
+            });
+        }
+
+        function displayResults(data) {
+            currentResults = data.results;
+            currentResultId = data.result_id;
+            
+            // Update main statistics
+            document.getElementById('totalFrames').textContent = currentResults.total_frames.toLocaleString();
+            document.getElementById('processedFrames').textContent = currentResults.processed_frames.toLocaleString();
+            document.getElementById('crowdEvents').textContent = currentResults.crowd_events;
+            document.getElementById('maxCrowdSize').textContent = currentResults.max_crowd_size;
+            document.getElementById('averageCrowdSize').textContent = currentResults.average_crowd_size;
+            document.getElementById('highAlerts').textContent = currentResults.high_density_alerts;
+            document.getElementById('videoDuration').textContent = currentResults.video_duration;
+            document.getElementById('processingTime').textContent = data.processing_time ? data.processing_time.toFixed(2) : '0';
+            
+            // Generate and display smart recommendations
+            const recommendations = generateSmartRecommendations(currentResults);
+            displayRecommendations(recommendations);
+            
+            // Populate frame data table
+            if (currentResults.frame_data && currentResults.frame_data.length > 0) {
+                const tableBody = document.getElementById('frameTableBody');
+                tableBody.innerHTML = '';
+                
+                currentResults.frame_data.slice(0, 20).forEach(frame => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${frame.frame_number}</td>
+                        <td>${frame.timestamp}</td>
+                        <td>${frame.people_count}</td>
+                        <td>${frame.density_level}</td>
+                        <td>${frame.movement_intensity}</td>
+                        <td>${frame.zone_occupancy.zone_a}</td>
+                        <td>${frame.zone_occupancy.zone_b}</td>
+                        <td>${frame.zone_occupancy.zone_c}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            }
+            
+            // Update video preview
+            const videoPreview = document.getElementById('videoPreviewContent');
+            videoPreview.innerHTML = `
+                <div style="font-size: 3rem; margin-bottom: 10px;">✅</div>
+                <div>Analysis Complete</div>
+                <div style="font-size: 0.9rem; opacity: 0.8; margin-top: 10px;">
+                    ${currentResults.total_frames.toLocaleString()} frames analyzed
+                </div>
+            `;
+            
+            document.getElementById('resultsSection').style.display = 'block';
+        }
+
+        function toggleFrameData() {
+            const frameDataSection = document.getElementById('frameDataSection');
+            const toggleButton = document.querySelector('.toggle-frame-data');
+            
+            if (frameDataVisible) {
+                frameDataSection.style.display = 'none';
+                toggleButton.textContent = 'Show Detailed Frame Data';
+            } else {
+                frameDataSection.style.display = 'block';
+                toggleButton.textContent = 'Hide Detailed Frame Data';
+            }
+            
+            frameDataVisible = !frameDataVisible;
+        }
+
+        async function downloadResults(format) {
+            if (!currentResultId) {
+                showStatus('No analysis results available for download', 'error');
+                return;
+            }
+            
+            try {
+                showStatus(`Preparing ${format.toUpperCase()} download...`, 'processing');
+                
+                // Get authentication token
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    throw new Error('Not authenticated');
+                }
+
+                const response = await fetch(`/api/export-results/${currentResultId}/${format}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Download failed');
+                }
+
+                // Create download
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = `crowd_analysis_${currentResultId}.${format}`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+                
+                showStatus(`${format.toUpperCase()} download started!`, 'success');
+            } catch (error) {
+                showStatus(`Download failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function loadVideoHistory() {
+            try {
+                // Get authentication token
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    throw new Error('Not authenticated');
+                }
+
+                const response = await fetch('/api/my-videos', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to load video history');
+                }
+
+                const data = await response.json();
+                displayVideoHistory(data.videos);
+                
+            } catch (error) {
+                console.error('Error loading video history:', error);
+                document.getElementById('videoHistory').innerHTML = `
+                    <div style="text-align: center; padding: 20px; color: #ff6b6b;">
+                        <p>Failed to load video history</p>
+                        <p style="font-size: 0.9rem; opacity: 0.8;">${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        function displayVideoHistory(videos) {
+            const historyDiv = document.getElementById('videoHistory');
+            
+            if (!videos || videos.length === 0) {
+                historyDiv.innerHTML = `
+                    <div style="text-align: center; padding: 40px; opacity: 0.7;">
+                        <div style="font-size: 3rem; margin-bottom: 10px;">📹</div>
+                        <p>No videos analyzed yet.</p>
+                        <p>Upload your first video to get started!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            videos.forEach(video => {
+                const uploadDate = new Date(video.upload_time).toLocaleDateString();
+                const fileSizeMB = video.file_size_mb || (video.file_size ? (video.file_size / (1024 * 1024)).toFixed(2) : 'N/A');
+                const statusColor = video.status === 'completed' ? '#2ecc71' : 
+                                  video.status === 'processing' ? '#f39c12' : '#e74c3c';
+                
+                html += `
+                <div class="video-item">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 8px;">
+                        <strong style="flex: 1;">${video.original_filename}</strong>
+                        <span style="background: ${statusColor}; padding: 2px 8px; border-radius: 12px; font-size: 0.8rem;">
+                            ${video.status}
+                        </span>
+                    </div>
+                    <div style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 5px;">
+                        📅 Uploaded: ${uploadDate} | 💾 Size: ${fileSizeMB} MB
+                    </div>
+                    ${video.max_crowd_size ? `
+                    <div style="font-size: 0.9rem;">
+                        👥 Max Crowd: ${video.max_crowd_size} | 
+                        ⚠️ Alerts: ${video.high_density_alerts || 0} |
+                        ⏱️ Processed: ${video.processing_time ? video.processing_time.toFixed(2) + 's' : 'N/A'}
+                    </div>
+                    ` : '<div>Processing...</div>'}
+                </div>`;
+            });
+            historyDiv.innerHTML = html;
+        }
+
+        function resetAnalysis() {
+            document.getElementById('resultsSection').style.display = 'none';
+            document.getElementById('fileInput').value = '';
+            document.getElementById('selectedFile').style.display = 'none';
+            document.getElementById('statusMessage').style.display = 'none';
+            document.getElementById('frameDataSection').style.display = 'none';
+            frameDataVisible = false;
+            currentResultId = null;
+            
+            // Reset video preview
+            const videoPreview = document.getElementById('videoPreviewContent');
+            videoPreview.innerHTML = `
+                <div style="font-size: 3rem; margin-bottom: 10px;">📊</div>
+                <div>Analysis Complete</div>
+                <div style="font-size: 0.9rem; opacity: 0.8; margin-top: 10px;">
+                    Video processed successfully
+                </div>
+            `;
+        }
+
+        function showStatus(message, type) {
+            const statusDiv = document.getElementById('statusMessage');
+            statusDiv.textContent = message; 
+            statusDiv.className = `status-message status-${type}`;
+            statusDiv.style.display = 'block';
+            
+            // Auto-hide success messages after 5 seconds
+            if (type === 'success') {
+                setTimeout(() => {
+                    statusDiv.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        function logout() {
+            // Clear ALL authentication data
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            localStorage.removeItem('crowd_detection_logged_in');
+            
+            // Clear cookies
+            document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie = "adminToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            
+            // Redirect to login page with cache busting
+            window.location.href = '/?logout=true&t=' + new Date().getTime();
+        }
+    </script>
+</body>
+</html>

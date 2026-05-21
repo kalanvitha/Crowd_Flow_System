@@ -1,0 +1,21 @@
+CROWD DETECTION ANALYSIS REPORT
+Generated at:,2025-10-15 21:08:33
+
+SUMMARY
+Total Frames,1200
+Video Duration,60.5
+Max Crowd Size,48
+High Density Alerts,7
+
+FRAME DATA (Sample)
+Frame,Timestamp,People Count,Density Level
+0,0.0,43,Low
+5,0.17,18,Low
+10,0.33,26,High
+15,0.5,36,Medium
+20,0.67,45,Low
+25,0.83,30,Medium
+30,1.0,23,Low
+35,1.17,43,Medium
+40,1.33,19,Low
+45,1.5,26,Medium

@@ -1,0 +1,12 @@
+{
+  "total_frames": 134,
+  "processed_frames": 13,
+  "crowd_events": 6,
+  "max_crowd_size": 47,
+  "average_crowd_size": 13.26,
+  "high_density_alerts": 6,
+  "video_duration": 5.36,
+  "video_resolution": "3840x2160",
+  "fps": 25.0,
+  "analysis_timestamp": "2025-10-15T14:31:25.907553"
+}

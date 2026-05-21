@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard - Test Version</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .stats { display: flex; gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: #f5f5f5; padding: 20px; border-radius: 8px; min-width: 150px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #f2f2f2; }
+        .demo-notice { background: #fff3cd; padding: 10px; border-radius: 5px; margin: 10px 0; }
+        .nav { margin: 20px 0; }
+        .nav a { margin-right: 15px; text-decoration: none; color: #007bff; }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href="/">Main App</a>
+        <a href="/admin">Admin Dashboard</a>
+        <a href="/admin-test">Test Dashboard</a>
+    </div>
+
+    <h1>Admin Dashboard - Test Version</h1>
+    <div class="demo-notice">
+        🔒 <strong>Demo Mode:</strong> Showing sample data. For real data, login to the main app first.
+    </div>
+    
+    <div class="stats" id="statsContainer">
+        <div class="stat-card">
+            <h3>Total Users</h3>
+            <p id="totalUsers">Loading...</p>
+        </div>
+        <div class="stat-card">
+            <h3>Total Videos</h3>
+            <p id="totalVideos">Loading...</p>
+        </div>
+        <div class="stat-card">
+            <h3>Total Analyses</h3>
+            <p id="totalAnalyses">Loading...</p>
+        </div>
+    </div>
+
+    <h2>Recent Activity</h2>
+    <table id="activityTable">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Video</th>
+                <th>Upload Time</th>
+                <th>Max Crowd</th>
+                <th>Alerts</th>
+            </tr>
+        </thead>
+        <tbody id="activityBody"></tbody>
+    </table>
+
+    <script>
+        async function loadAdminData() {
+            try {
+                // Try with authentication first
+                const token = localStorage.getItem('crowd_detection_token');
+                let headers = {};
+                
+                if (token) {
+                    headers['Authorization'] = `Bearer ${token}`;
+                }
+                
+                const response = await fetch('/api/admin/stats', { headers });
+                
+                if (!response.ok) {
+                    throw new Error('API request failed');
+                }
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Update stats
+                    document.getElementById('totalUsers').textContent = data.stats.total_users;
+                    document.getElementById('totalVideos').textContent = data.stats.total_videos;
+                    document.getElementById('totalAnalyses').textContent = data.stats.total_analyses;
+                    
+                    // Update activity table
+                    const activityBody = document.getElementById('activityBody');
+                    activityBody.innerHTML = data.recent_activity.map(activity => `
+                        <tr>
+                            <td>${activity.username}</td>
+                            <td>${activity.original_filename}</td>
+                            <td>${new Date(activity.upload_time).toLocaleString()}</td>
+                            <td>${activity.max_crowd_size}</td>
+                            <td>${activity.high_density_alerts}</td>
+                        </tr>
+                    `).join('');
+                }
+            } catch (error) {
+                console.error('Error loading admin data:', error);
+                // Show demo data
+                document.getElementById('totalUsers').textContent = '3';
+                document.getElementById('totalVideos').textContent = '8';
+                document.getElementById('totalAnalyses').textContent = '5';
+                
+                const activityBody = document.getElementById('activityBody');
+                activityBody.innerHTML = `
+                    <tr>
+                        <td>demo_user</td>
+                        <td>mall_entrance.mp4</td>
+                        <td>${new Date().toLocaleString()}</td>
+                        <td>45</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td>test_user</td>
+                        <td>stadium_crowd.avi</td>
+                        <td>${new Date(Date.now() - 2*60*60*1000).toLocaleString()}</td>
+                        <td>78</td>
+                        <td>7</td>
+                    </tr>
+                    <tr>
+                        <td>admin</td>
+                        <td>concert_footage.mp4</td>
+                        <td>${new Date(Date.now() - 24*60*60*1000).toLocaleString()}</td>
+                        <td>156</td>
+                        <td>15</td>
+                    </tr>
+                `;
+            }
+        }
+        
+        loadAdminData();
+    </script>
+</body>
+</html>

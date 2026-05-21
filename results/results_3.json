@@ -1,0 +1,624 @@
+{
+  "total_frames": 550,
+  "processed_frames": 55,
+  "crowd_events": 7,
+  "max_crowd_size": 13,
+  "average_crowd_size": 23.52,
+  "high_density_alerts": 9,
+  "video_duration": 11.0,
+  "video_resolution": "1920x1080",
+  "fps": 50.0,
+  "analysis_timestamp": "2025-10-15T14:50:19.593479",
+  "frame_data": [
+    {
+      "frame_number": 0,
+      "timestamp": 0.0,
+      "people_count": 44,
+      "density_level": "High",
+      "movement_intensity": 0.85,
+      "zone_occupancy": {
+        "zone_a": 8,
+        "zone_b": 0,
+        "zone_c": 17
+      }
+    },
+    {
+      "frame_number": 11,
+      "timestamp": 0.37,
+      "people_count": 36,
+      "density_level": "High",
+      "movement_intensity": 0.94,
+      "zone_occupancy": {
+        "zone_a": 6,
+        "zone_b": 3,
+        "zone_c": 19
+      }
+    },
+    {
+      "frame_number": 22,
+      "timestamp": 0.73,
+      "people_count": 15,
+      "density_level": "High",
+      "movement_intensity": 0.75,
+      "zone_occupancy": {
+        "zone_a": 9,
+        "zone_b": 11,
+        "zone_c": 18
+      }
+    },
+    {
+      "frame_number": 33,
+      "timestamp": 1.1,
+      "people_count": 13,
+      "density_level": "Medium",
+      "movement_intensity": 0.52,
+      "zone_occupancy": {
+        "zone_a": 4,
+        "zone_b": 13,
+        "zone_c": 24
+      }
+    },
+    {
+      "frame_number": 44,
+      "timestamp": 1.47,
+      "people_count": 18,
+      "density_level": "Low",
+      "movement_intensity": 0.22,
+      "zone_occupancy": {
+        "zone_a": 7,
+        "zone_b": 7,
+        "zone_c": 13
+      }
+    },
+    {
+      "frame_number": 55,
+      "timestamp": 1.83,
+      "people_count": 46,
+      "density_level": "Medium",
+      "movement_intensity": 0.4,
+      "zone_occupancy": {
+        "zone_a": 3,
+        "zone_b": 1,
+        "zone_c": 10
+      }
+    },
+    {
+      "frame_number": 66,
+      "timestamp": 2.2,
+      "people_count": 22,
+      "density_level": "High",
+      "movement_intensity": 0.41,
+      "zone_occupancy": {
+        "zone_a": 14,
+        "zone_b": 0,
+        "zone_c": 23
+      }
+    },
+    {
+      "frame_number": 77,
+      "timestamp": 2.57,
+      "people_count": 29,
+      "density_level": "High",
+      "movement_intensity": 0.73,
+      "zone_occupancy": {
+        "zone_a": 16,
+        "zone_b": 4,
+        "zone_c": 17
+      }
+    },
+    {
+      "frame_number": 88,
+      "timestamp": 2.93,
+      "people_count": 38,
+      "density_level": "Low",
+      "movement_intensity": 0.39,
+      "zone_occupancy": {
+        "zone_a": 2,
+        "zone_b": 9,
+        "zone_c": 21
+      }
+    },
+    {
+      "frame_number": 99,
+      "timestamp": 3.3,
+      "people_count": 3,
+      "density_level": "High",
+      "movement_intensity": 0.28,
+      "zone_occupancy": {
+        "zone_a": 5,
+        "zone_b": 13,
+        "zone_c": 13
+      }
+    },
+    {
+      "frame_number": 110,
+      "timestamp": 3.67,
+      "people_count": 27,
+      "density_level": "High",
+      "movement_intensity": 0.26,
+      "zone_occupancy": {
+        "zone_a": 6,
+        "zone_b": 13,
+        "zone_c": 10
+      }
+    },
+    {
+      "frame_number": 121,
+      "timestamp": 4.03,
+      "people_count": 17,
+      "density_level": "High",
+      "movement_intensity": 0.31,
+      "zone_occupancy": {
+        "zone_a": 12,
+        "zone_b": 8,
+        "zone_c": 6
+      }
+    },
+    {
+      "frame_number": 132,
+      "timestamp": 4.4,
+      "people_count": 0,
+      "density_level": "Medium",
+      "movement_intensity": 0.59,
+      "zone_occupancy": {
+        "zone_a": 17,
+        "zone_b": 5,
+        "zone_c": 4
+      }
+    },
+    {
+      "frame_number": 143,
+      "timestamp": 4.77,
+      "people_count": 25,
+      "density_level": "Low",
+      "movement_intensity": 0.07,
+      "zone_occupancy": {
+        "zone_a": 18,
+        "zone_b": 6,
+        "zone_c": 6
+      }
+    },
+    {
+      "frame_number": 154,
+      "timestamp": 5.13,
+      "people_count": 48,
+      "density_level": "High",
+      "movement_intensity": 0.15,
+      "zone_occupancy": {
+        "zone_a": 3,
+        "zone_b": 4,
+        "zone_c": 11
+      }
+    },
+    {
+      "frame_number": 165,
+      "timestamp": 5.5,
+      "people_count": 48,
+      "density_level": "Low",
+      "movement_intensity": 0.73,
+      "zone_occupancy": {
+        "zone_a": 2,
+        "zone_b": 4,
+        "zone_c": 14
+      }
+    },
+    {
+      "frame_number": 176,
+      "timestamp": 5.87,
+      "people_count": 36,
+      "density_level": "Medium",
+      "movement_intensity": 0.77,
+      "zone_occupancy": {
+        "zone_a": 6,
+        "zone_b": 0,
+        "zone_c": 1
+      }
+    },
+    {
+      "frame_number": 187,
+      "timestamp": 6.23,
+      "people_count": 26,
+      "density_level": "High",
+      "movement_intensity": 0.89,
+      "zone_occupancy": {
+        "zone_a": 0,
+        "zone_b": 2,
+        "zone_c": 11
+      }
+    },
+    {
+      "frame_number": 198,
+      "timestamp": 6.6,
+      "people_count": 9,
+      "density_level": "High",
+      "movement_intensity": 0.12,
+      "zone_occupancy": {
+        "zone_a": 11,
+        "zone_b": 9,
+        "zone_c": 12
+      }
+    },
+    {
+      "frame_number": 209,
+      "timestamp": 6.97,
+      "people_count": 9,
+      "density_level": "High",
+      "movement_intensity": 0.78,
+      "zone_occupancy": {
+        "zone_a": 6,
+        "zone_b": 6,
+        "zone_c": 8
+      }
+    },
+    {
+      "frame_number": 220,
+      "timestamp": 7.33,
+      "people_count": 41,
+      "density_level": "Medium",
+      "movement_intensity": 0.87,
+      "zone_occupancy": {
+        "zone_a": 1,
+        "zone_b": 14,
+        "zone_c": 3
+      }
+    },
+    {
+      "frame_number": 231,
+      "timestamp": 7.7,
+      "people_count": 16,
+      "density_level": "Low",
+      "movement_intensity": 0.75,
+      "zone_occupancy": {
+        "zone_a": 8,
+        "zone_b": 3,
+        "zone_c": 18
+      }
+    },
+    {
+      "frame_number": 242,
+      "timestamp": 8.07,
+      "people_count": 22,
+      "density_level": "High",
+      "movement_intensity": 0.03,
+      "zone_occupancy": {
+        "zone_a": 2,
+        "zone_b": 15,
+        "zone_c": 19
+      }
+    },
+    {
+      "frame_number": 253,
+      "timestamp": 8.43,
+      "people_count": 47,
+      "density_level": "High",
+      "movement_intensity": 0.2,
+      "zone_occupancy": {
+        "zone_a": 10,
+        "zone_b": 6,
+        "zone_c": 14
+      }
+    },
+    {
+      "frame_number": 264,
+      "timestamp": 8.8,
+      "people_count": 10,
+      "density_level": "Medium",
+      "movement_intensity": 0.72,
+      "zone_occupancy": {
+        "zone_a": 7,
+        "zone_b": 2,
+        "zone_c": 3
+      }
+    },
+    {
+      "frame_number": 275,
+      "timestamp": 9.17,
+      "people_count": 31,
+      "density_level": "High",
+      "movement_intensity": 0.49,
+      "zone_occupancy": {
+        "zone_a": 6,
+        "zone_b": 4,
+        "zone_c": 8
+      }
+    },
+    {
+      "frame_number": 286,
+      "timestamp": 9.53,
+      "people_count": 34,
+      "density_level": "Low",
+      "movement_intensity": 0.27,
+      "zone_occupancy": {
+        "zone_a": 4,
+        "zone_b": 15,
+        "zone_c": 14
+      }
+    },
+    {
+      "frame_number": 297,
+      "timestamp": 9.9,
+      "people_count": 3,
+      "density_level": "Medium",
+      "movement_intensity": 0.66,
+      "zone_occupancy": {
+        "zone_a": 0,
+        "zone_b": 9,
+        "zone_c": 4
+      }
+    },
+    {
+      "frame_number": 308,
+      "timestamp": 10.27,
+      "people_count": 8,
+      "density_level": "High",
+      "movement_intensity": 0.37,
+      "zone_occupancy": {
+        "zone_a": 17,
+        "zone_b": 14,
+        "zone_c": 2
+      }
+    },
+    {
+      "frame_number": 319,
+      "timestamp": 10.63,
+      "people_count": 29,
+      "density_level": "Low",
+      "movement_intensity": 0.97,
+      "zone_occupancy": {
+        "zone_a": 10,
+        "zone_b": 8,
+        "zone_c": 12
+      }
+    },
+    {
+      "frame_number": 330,
+      "timestamp": 11.0,
+      "people_count": 36,
+      "density_level": "High",
+      "movement_intensity": 0.28,
+      "zone_occupancy": {
+        "zone_a": 12,
+        "zone_b": 7,
+        "zone_c": 2
+      }
+    },
+    {
+      "frame_number": 341,
+      "timestamp": 11.37,
+      "people_count": 2,
+      "density_level": "Medium",
+      "movement_intensity": 0.55,
+      "zone_occupancy": {
+        "zone_a": 5,
+        "zone_b": 13,
+        "zone_c": 21
+      }
+    },
+    {
+      "frame_number": 352,
+      "timestamp": 11.73,
+      "people_count": 1,
+      "density_level": "Medium",
+      "movement_intensity": 0.51,
+      "zone_occupancy": {
+        "zone_a": 4,
+        "zone_b": 0,
+        "zone_c": 17
+      }
+    },
+    {
+      "frame_number": 363,
+      "timestamp": 12.1,
+      "people_count": 21,
+      "density_level": "Medium",
+      "movement_intensity": 0.5,
+      "zone_occupancy": {
+        "zone_a": 2,
+        "zone_b": 15,
+        "zone_c": 0
+      }
+    },
+    {
+      "frame_number": 374,
+      "timestamp": 12.47,
+      "people_count": 0,
+      "density_level": "Medium",
+      "movement_intensity": 0.78,
+      "zone_occupancy": {
+        "zone_a": 0,
+        "zone_b": 8,
+        "zone_c": 0
+      }
+    },
+    {
+      "frame_number": 385,
+      "timestamp": 12.83,
+      "people_count": 0,
+      "density_level": "High",
+      "movement_intensity": 0.17,
+      "zone_occupancy": {
+        "zone_a": 8,
+        "zone_b": 13,
+        "zone_c": 22
+      }
+    },
+    {
+      "frame_number": 396,
+      "timestamp": 13.2,
+      "people_count": 44,
+      "density_level": "Medium",
+      "movement_intensity": 0.42,
+      "zone_occupancy": {
+        "zone_a": 11,
+        "zone_b": 4,
+        "zone_c": 11
+      }
+    },
+    {
+      "frame_number": 407,
+      "timestamp": 13.57,
+      "people_count": 48,
+      "density_level": "Medium",
+      "movement_intensity": 0.87,
+      "zone_occupancy": {
+        "zone_a": 16,
+        "zone_b": 11,
+        "zone_c": 16
+      }
+    },
+    {
+      "frame_number": 418,
+      "timestamp": 13.93,
+      "people_count": 26,
+      "density_level": "Medium",
+      "movement_intensity": 0.38,
+      "zone_occupancy": {
+        "zone_a": 10,
+        "zone_b": 3,
+        "zone_c": 25
+      }
+    },
+    {
+      "frame_number": 429,
+      "timestamp": 14.3,
+      "people_count": 3,
+      "density_level": "High",
+      "movement_intensity": 0.52,
+      "zone_occupancy": {
+        "zone_a": 1,
+        "zone_b": 3,
+        "zone_c": 18
+      }
+    },
+    {
+      "frame_number": 440,
+      "timestamp": 14.67,
+      "people_count": 38,
+      "density_level": "Low",
+      "movement_intensity": 0.33,
+      "zone_occupancy": {
+        "zone_a": 17,
+        "zone_b": 15,
+        "zone_c": 6
+      }
+    },
+    {
+      "frame_number": 451,
+      "timestamp": 15.03,
+      "people_count": 3,
+      "density_level": "Low",
+      "movement_intensity": 0.73,
+      "zone_occupancy": {
+        "zone_a": 9,
+        "zone_b": 14,
+        "zone_c": 23
+      }
+    },
+    {
+      "frame_number": 462,
+      "timestamp": 15.4,
+      "people_count": 44,
+      "density_level": "Low",
+      "movement_intensity": 0.0,
+      "zone_occupancy": {
+        "zone_a": 0,
+        "zone_b": 11,
+        "zone_c": 17
+      }
+    },
+    {
+      "frame_number": 473,
+      "timestamp": 15.77,
+      "people_count": 23,
+      "density_level": "Low",
+      "movement_intensity": 0.09,
+      "zone_occupancy": {
+        "zone_a": 0,
+        "zone_b": 7,
+        "zone_c": 18
+      }
+    },
+    {
+      "frame_number": 484,
+      "timestamp": 16.13,
+      "people_count": 28,
+      "density_level": "Medium",
+      "movement_intensity": 0.03,
+      "zone_occupancy": {
+        "zone_a": 15,
+        "zone_b": 13,
+        "zone_c": 19
+      }
+    },
+    {
+      "frame_number": 495,
+      "timestamp": 16.5,
+      "people_count": 37,
+      "density_level": "Low",
+      "movement_intensity": 0.96,
+      "zone_occupancy": {
+        "zone_a": 19,
+        "zone_b": 2,
+        "zone_c": 4
+      }
+    },
+    {
+      "frame_number": 506,
+      "timestamp": 16.87,
+      "people_count": 32,
+      "density_level": "High",
+      "movement_intensity": 0.63,
+      "zone_occupancy": {
+        "zone_a": 14,
+        "zone_b": 3,
+        "zone_c": 5
+      }
+    },
+    {
+      "frame_number": 517,
+      "timestamp": 17.23,
+      "people_count": 36,
+      "density_level": "Medium",
+      "movement_intensity": 0.41,
+      "zone_occupancy": {
+        "zone_a": 0,
+        "zone_b": 11,
+        "zone_c": 6
+      }
+    },
+    {
+      "frame_number": 528,
+      "timestamp": 17.6,
+      "people_count": 4,
+      "density_level": "Medium",
+      "movement_intensity": 0.24,
+      "zone_occupancy": {
+        "zone_a": 10,
+        "zone_b": 2,
+        "zone_c": 17
+      }
+    },
+    {
+      "frame_number": 539,
+      "timestamp": 17.97,
+      "people_count": 50,
+      "density_level": "Low",
+      "movement_intensity": 0.44,
+      "zone_occupancy": {
+        "zone_a": 0,
+        "zone_b": 3,
+        "zone_c": 16
+      }
+    }
+  ],
+  "summary_stats": {
+    "peak_hour": "01:29",
+    "density_trend": "Increasing",
+    "risk_level": "High",
+    "recommendations": [
+      "Monitor high-density areas closely",
+      "Consider crowd control measures",
+      "Review entry/exit points"
+    ]
+  }
+}
