@@ -4,7 +4,7 @@ python-dotenv==1.0.0
 PyJWT==2.8.0
 bcrypt==4.1.1
 opencv-python-headless==4.8.1.78
-numpy==2.2.6
+numpy==1.26.4
 mysql-connector-python==8.1.0
 pandas==2.2.3
 openpyxl==3.1.2
