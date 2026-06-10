@@ -83,15 +83,27 @@ def get_database_connection():
         logger.info("Database connection successful")
         return connection
 
-    except Exception as e:
+    except mysql.connector.Error as e:
         logger.error(f"Database connection error: {e}")
-        raise e
+
         # If database doesn't exist, try to create it
         if "Unknown database" in str(e):
             logger.info("Database not found, creating it...")
             create_database()
-            return get_database_connection()
-        raise e
+            try:
+                return mysql.connector.connect(
+                    host=os.getenv('MYSQLHOST'),
+                    user=os.getenv('MYSQLUSER'),
+                    password=os.getenv('MYSQLPASSWORD'),
+                    database=os.getenv('MYSQLDATABASE'),
+                    port=int(os.getenv('MYSQLPORT', 3306)),
+                    charset='utf8mb4'
+                )
+            except Exception as inner_e:
+                logger.error(f"Retry connection failed: {inner_e}")
+                return None
+
+        return None
 
 def allowed_file(filename):
     """Check if file extension is allowed"""
