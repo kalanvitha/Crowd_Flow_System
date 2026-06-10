@@ -86,7 +86,6 @@ def get_database_connection():
     except mysql.connector.Error as e:
         logger.error(f"Database connection error: {e}")
 
-        # If database doesn't exist, try to create it
         if "Unknown database" in str(e):
             logger.info("Database not found, creating it...")
             create_database()
@@ -104,7 +103,6 @@ def get_database_connection():
                 return None
 
         return None
-
 def allowed_file(filename):
     """Check if file extension is allowed"""
     return '.' in filename and \
@@ -599,6 +597,8 @@ def admin_login():
             'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24)  # 24 hour expiry
         }
         auth_token = jwt.encode(token_payload, app.secret_key, algorithm='HS256')
+        if isinstance(auth_token, bytes):
+            auth_token = auth_token.decode('utf-8')
         
         response = jsonify({
             'success': True, 
@@ -951,6 +951,8 @@ def register_user():
             'exp': datetime.datetime.utcnow() + datetime.timedelta(days=app.config['JWT_EXPIRY_DAYS'])
         }
         auth_token = jwt.encode(token_payload, app.secret_key, algorithm='HS256')
+        if isinstance(auth_token, bytes):
+            auth_token = auth_token.decode('utf-8')
         
         response = jsonify({
             'success': True, 
@@ -1014,7 +1016,8 @@ def login_user():
                 'exp': datetime.datetime.utcnow() + datetime.timedelta(days=app.config['JWT_EXPIRY_DAYS'])
             }
             auth_token = jwt.encode(token_payload, app.secret_key, algorithm='HS256')
-            
+            if isinstance(auth_token, bytes):
+                auth_token = auth_token.decode('utf-8')
             response = jsonify({
                 'success': True, 
                 'message': 'Login successful', 
