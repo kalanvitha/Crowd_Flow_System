@@ -69,19 +69,23 @@ ADMIN_CREDENTIALS = {
 }
 
 def get_database_connection():
-    """Get database connection with retry logic"""
+    """Get database connection with Railway/MySQL env variables"""
     try:
         connection = mysql.connector.connect(
-            host=os.getenv('DB_HOST', 'localhost'),
-            user=os.getenv('DB_USER', 'root'),
-            password=os.getenv('DB_PASSWORD', 'kalanvitha'),
-            database=os.getenv('DB_NAME', 'crowd_detection_system'),
+            host=os.getenv('MYSQLHOST'),
+            user=os.getenv('MYSQLUSER'),
+            password=os.getenv('MYSQLPASSWORD'),
+            database=os.getenv('MYSQLDATABASE'),
+            port=int(os.getenv('MYSQLPORT', 3306)),
             charset='utf8mb4'
         )
+
         logger.info("Database connection successful")
         return connection
-    except Error as e:
+
+    except Exception as e:
         logger.error(f"Database connection error: {e}")
+        raise e
         # If database doesn't exist, try to create it
         if "Unknown database" in str(e):
             logger.info("Database not found, creating it...")
@@ -1315,5 +1319,4 @@ if __name__ == '__main__':
         print(f"  Username: {username}")
         print(f"  Password: {password}")
     print("=" * 60)
-    
     app.run(host="0.0.0.0", port=5000)
