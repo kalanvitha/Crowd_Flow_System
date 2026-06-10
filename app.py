@@ -2,6 +2,7 @@ import sys
 import io
 import csv
 import pandas as pd
+from flask import render_template
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
 from reportlab.lib.styles import getSampleStyleSheet
@@ -321,9 +322,9 @@ def create_database():
     try:
         # Connect to MySQL server without specifying database first
         database = mysql.connector.connect(
-            host=os.getenv('DB_HOST', 'localhost'),
-            user=os.getenv('DB_USER', 'root'),
-            password=os.getenv('DB_PASSWORD', 'kalanvitha'),
+            host=os.getenv('MYSQLHOST'),
+            user=os.getenv('MYSQLUSER'),
+            password=os.getenv('MYSQLPASSWORD'),
             charset='utf8mb4',
             collation='utf8mb4_unicode_ci'
         )
@@ -884,18 +885,15 @@ def get_admin_analytics():
 
 @app.route('/')
 def index():
-    """Serve the login page"""
-    return send_from_directory('.', 'index.html')
+    return render_template('index.html')
 
 @app.route('/register.html')
 def register_page():
-    """Serve the registration page"""
-    return send_from_directory('.', 'register.html')
+    return render_template('register.html')
 
 @app.route('/app')
 def app_page():
-    """Serve the main application page"""
-    return send_from_directory('.', 'app.html')
+    return render_template('app.html')
 
 @app.route('/api/register', methods=['POST'])
 def register_user():
