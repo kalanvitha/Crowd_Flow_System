@@ -34,7 +34,8 @@ import numpy as np
 from pathlib import Path
 
 load_dotenv()
-
+print("MYSQL HOST:", os.getenv("MYSQLHOST"))
+print("MYSQL PORT:", os.getenv("MYSQLPORT"))
 # Enhanced logging configuration
 logging.basicConfig(
     level=logging.DEBUG,
@@ -68,7 +69,6 @@ database_initialized = False
 ADMIN_CREDENTIALS = {
     "kalanvitha@29": "kalanvitha_29"
 }
-
 def get_database_connection():
     """Get database connection with Railway/MySQL env variables"""
     try:
@@ -322,18 +322,19 @@ def create_database():
     try:
         # Connect to MySQL server without specifying database first
         database = mysql.connector.connect(
-            host=os.getenv('MYSQLHOST'),
-            user=os.getenv('MYSQLUSER'),
-            password=os.getenv('MYSQLPASSWORD'),
-            charset='utf8mb4',
-            collation='utf8mb4_unicode_ci'
-        )
+    host=os.getenv('MYSQLHOST'),
+    user=os.getenv('MYSQLUSER'),
+    password=os.getenv('MYSQLPASSWORD'),
+    port=int(os.getenv('MYSQLPORT', 3306)),
+    charset='utf8mb4',
+    collation='utf8mb4_unicode_ci'
+    )
         
         cursor = database.cursor()
         
         # Create database if it doesn't exist
-        cursor.execute("CREATE DATABASE IF NOT EXISTS crowd_detection_system CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")
-        cursor.execute("USE crowd_detection_system")
+        cursor.execute("CREATE DATABASE IF NOT EXISTS crowd_detection CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")
+        cursor.execute("USE crowd_detection")
         
         # Create users table
         cursor.execute("""
@@ -567,16 +568,13 @@ def verify_token():
 # =============================================================================
 # ENHANCED ADMIN ROUTES FOR REAL DATA
 # =============================================================================
-
-@app.route('/admin-login')
+@app.route('/admin-login', methods=['GET'])
 def admin_login_page():
-    """Serve the admin login page"""
-    return send_from_directory('.', 'admin-login.html')
+    return render_template('admin-login.html')
 
 @app.route('/admin')
 def admin_dashboard():
-    """Serve the admin dashboard page"""
-    return send_from_directory('.', 'admin.html')
+   return render_template('admin.html')
 
 @app.route('/api/admin/login', methods=['POST'])
 def admin_login():
@@ -1309,7 +1307,6 @@ def internal_error(error):
 @app.errorhandler(413)
 def too_large(error):
     return jsonify({'error': 'File too large'}), 413
-
 if __name__ == '__main__':
     # Initialize database on startup
     try:
@@ -1332,4 +1329,9 @@ if __name__ == '__main__':
         print(f"  Username: {username}")
         print(f"  Password: {password}")
     print("=" * 60)
-    app.run(host="0.0.0.0", port=5000)
+    
+    print(app.url_map)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
+   
+    
